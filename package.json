@@ -1,5 +1,7 @@
 {
   "name": "quiz-master",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "simplemde": "^1.11.2"
+  }
 }

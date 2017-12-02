@@ -13,4 +13,5 @@
 //= require rails-ujs
 //= require activestorage
 //= require turbolinks
+//= require simplemde/dist/simplemde.min.js
 //= require_tree .
