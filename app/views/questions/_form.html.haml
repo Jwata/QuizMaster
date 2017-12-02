@@ -1,3 +1,5 @@
+#mde-preview
+
 = form_for @question do |f|
   - if @question.errors.any?
     #error_explanation
@@ -8,9 +10,20 @@
 
   .field
     = f.label :content
-    = f.text_field :content
+    = f.text_area :content, id: 'mde'
   .field
     = f.label :answer
     = f.text_field :answer
   .actions
     = f.submit 'Save'
+
+:coffee
+  textArea = document.getElementById('mde')
+  mde = new SimpleMDE(
+    autofocus: true
+    element: textArea
+  )
+  previewArea = document.getElementById('mde-preview')
+  previewArea.innerHTML = mde.markdown(mde.value())
+  mde.codemirror.on 'change', ->
+    previewArea.innerHTML = mde.markdown(mde.value())

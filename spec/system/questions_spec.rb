@@ -1,20 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe 'Questions', type: :system do
-  pending 'Implement rich editor'
+  before do
+    @question = Question.create!(content: '# This is h1', answer: 'h1')
+  end
+  scenario 'Allow user to provide formatting or styling for the question content' do
+    # Open the new question page
+    visit edit_question_path(@question)
 
-  # scenario 'Allow user to provide formatting or styling for the question content' do
+    # Check preview
+    expect(page).to have_css('h1', text: 'This is h1')
 
-  #   # Open the new question page
-
-  #   # Input content
-
-  #   # Change style
-
-  #   # Check preview
-
-  #   # Submit content
-
-  #   # Check if the content has been subumitted properly
-  # end
+    # TODO: change style
+  end
 end
