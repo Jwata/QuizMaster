@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/Jwata/QuizMaster.svg?style=svg)](https://circleci.com/gh/Jwata/QuizMaster)
+
 # README
 
 This README would normally document whatever steps are necessary to get the

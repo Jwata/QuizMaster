@@ -1,0 +1,61 @@
+# Ruby CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-ruby/ for more details
+#
+version: 2
+jobs:
+  build:
+    working_directory: ~/repo
+    docker:
+      - image: circleci/ruby:2.4.1-node-browsers
+        environment:
+          RAILS_ENV: test
+          PGHOST: 127.0.0.1
+          PGUSER: quiz_master
+      - image: circleci/postgres:9.6.2
+        environment:
+          POSTGRES_USER: quiz_master
+          POSTGRES_DB: quiz_master_test
+          POSTGRES_PASSWORD: ""
+    steps:
+      - checkout
+      # Bundle
+      - type: cache-restore
+        name: Restore bundle cache
+        key: gemfilelock-{{ checksum "Gemfile.lock" }}
+      - run: bundle install --jobs=4 --retry=3 --path vendor/bundle
+      - type: cache-save
+        key: gemfilelock-{{ checksum "Gemfile.lock" }}
+        paths:
+          - ./vendor/bundle
+      # Yarn
+      - type: cache-restore
+        name: Restore yarn cache
+        key: yarnlock-{{ checksum "yarn.lock" }}
+      - run: yarn install
+      - type: cache-save
+        key: yarnlock-{{ checksum "yarn.lock" }}
+        paths:
+          - ./.yarn-cache
+
+      # Database setup
+      - run:
+          name: Setup DB
+          command: |
+            bundle exec rake db:create
+            bundle exec rake db:schema:load
+
+      # run tests!
+      - run:
+          name: Run tests
+          command: |
+            mkdir /tmp/test-results
+            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
+            bundle exec rspec --format documentation $(echo "${TEST_FILES}" | sed -e 's/\n/\\n/' -e 's/ /\ /')
+
+      # collect reports
+      - store_test_results:
+          path: /tmp/test-results
+      - store_artifacts:
+          path: /tmp/test-results
+          destination: test-results
