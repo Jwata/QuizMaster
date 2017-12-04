@@ -14,6 +14,7 @@
       %tr
         %td= question.content
         %td= question.answer
+        %td= link_to 'Quiz', quiz_question_path(question)
         %td= link_to 'Show', question
         %td= link_to 'Edit', edit_question_path(question)
         %td= link_to 'Destroy', question, method: :delete, data: { confirm: 'Are you sure?' }

@@ -1,0 +1,18 @@
+%p#notice= notice
+
+#mde-preview
+
+= form_for :quiz, url: quiz_question_path(@question), method: :post do |f|
+  .field
+    = f.label :answer
+    = f.text_field :answer, value: nil, required: true
+  .actions
+    = f.submit 'Check Answer'
+
+= link_to 'Back', questions_path
+
+:coffee
+  answer_in_markdown = "#{@question.content.to_s}"
+  previewArea = document.getElementById('mde-preview')
+  previewArea.innerHTML =
+    SimpleMDE.prototype.markdown(answer_in_markdown)
