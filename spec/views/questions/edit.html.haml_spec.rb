@@ -13,7 +13,7 @@ RSpec.describe "questions/edit", type: :view do
 
     assert_select "form[action=?][method=?]", question_path(@question), "post" do
 
-      assert_select "input[name=?]", "question[content]"
+      assert_select "textarea[name=?]", "question[content]"
 
       assert_select "input[name=?]", "question[answer]"
     end
