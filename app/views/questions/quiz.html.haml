@@ -1,7 +1,8 @@
 %p#notice= notice
 %p="Your answer: #{flash[:quiz_answer]}"
 
-#mde-preview
+%b Content:
+= render 'formatted_md_text', markdown: @question.content.to_s
 
 = form_for :quiz, url: quiz_question_path(@question), method: :post do |f|
   .field
@@ -11,9 +12,3 @@
     = f.submit 'Check Answer'
 
 = link_to 'Back', questions_path
-
-:coffee
-  answer_in_markdown = "#{@question.content.to_s}"
-  previewArea = document.getElementById('mde-preview')
-  previewArea.innerHTML =
-    SimpleMDE.prototype.markdown(answer_in_markdown)
