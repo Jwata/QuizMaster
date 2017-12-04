@@ -29,11 +29,11 @@ RSpec.describe QuestionsController, type: :controller do
   # Question. As you add validations to Question, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    { content: "What's the best mountain in Japan?", answer: 'Mount Fuji' }
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    { content: nil, answer: nil }
   }
 
   # This should return the minimal set of values that should be in the session
@@ -43,32 +43,62 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe "GET #index" do
     it "returns a success response" do
+      Question.create! valid_attributes
+      get :index, params: {}, session: valid_session
+      expect(response).to be_successful
+    end
+
+    it 'assigns questions' do
       question = Question.create! valid_attributes
       get :index, params: {}, session: valid_session
-      expect(response).to be_success
+      expect(assigns(:questions)).to eq [question]
     end
   end
 
   describe "GET #show" do
+    let(:assigned_question) { assigns(:question) }
+
     it "returns a success response" do
       question = Question.create! valid_attributes
       get :show, params: {id: question.to_param}, session: valid_session
-      expect(response).to be_success
+      expect(response).to be_successful
+    end
+
+    it 'assigns question' do
+      question = Question.create! valid_attributes
+      get :show, params: {id: question.to_param}, session: valid_session
+      expect(assigned_question).to eq question
     end
   end
 
   describe "GET #new" do
+    let(:assigned_question) { assigns(:question) }
+
     it "returns a success response" do
       get :new, params: {}, session: valid_session
-      expect(response).to be_success
+      expect(response).to be_successful
+    end
+
+    it 'assigns question' do
+      get :new, params: {}, session: valid_session
+      expect(assigned_question.content).to be_blank
+      expect(assigned_question.answer).to be_blank
     end
   end
 
   describe "GET #edit" do
+    let(:assigned_question) { assigns(:question) }
+
     it "returns a success response" do
       question = Question.create! valid_attributes
       get :edit, params: {id: question.to_param}, session: valid_session
-      expect(response).to be_success
+      expect(response).to be_successful
+    end
+
+    it 'assigns question' do
+      question = Question.create! valid_attributes
+      get :edit, params: {id: question.to_param}, session: valid_session
+      expect(assigned_question).to eq question
     end
   end
 
@@ -89,7 +119,7 @@ RSpec.describe QuestionsController, type: :controller do
     context "with invalid params" do
       it "returns a success response (i.e. to display the 'new' template)" do
         post :create, params: {question: invalid_attributes}, session: valid_session
-        expect(response).to be_success
+        expect(response).to be_successful
       end
     end
   end
@@ -97,14 +127,15 @@ RSpec.describe QuestionsController, type: :controller do
   describe "PUT #update" do
     context "with valid params" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        { content: "What's the best mountain in the world?", answer: 'Mount Everest' }
       }
 
       it "updates the requested question" do
         question = Question.create! valid_attributes
         put :update, params: {id: question.to_param, question: new_attributes}, session: valid_session
         question.reload
-        skip("Add assertions for updated state")
+        expect(question.content).to eq new_attributes[:content]
+        expect(question.answer.to_s).to eq new_attributes[:answer]
       end
 
       it "redirects to the question" do
@@ -118,7 +149,7 @@ RSpec.describe QuestionsController, type: :controller do
       it "returns a success response (i.e. to display the 'edit' template)" do
         question = Question.create! valid_attributes
         put :update, params: {id: question.to_param, question: invalid_attributes}, session: valid_session
-        expect(response).to be_success
+        expect(response).to be_successful
       end
     end
   end
