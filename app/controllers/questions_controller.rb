@@ -66,6 +66,7 @@ class QuestionsController < ApplicationController
 
   def check_answer
     messsage = check_answer_message @question.correct?(quiz_answer_param)
+    flash[:quiz_answer] = quiz_answer_param
     respond_to do |format|
       format.html { redirect_to quiz_question_path, notice: messsage }
       format.json { render :quiz, status: :ok, location: @question }
