@@ -12,6 +12,10 @@ class Answer
     @raw
   end
 
+  def empty?
+    @raw.blank?
+  end
+
   private
 
   def normalize(string)
