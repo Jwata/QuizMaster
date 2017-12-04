@@ -12,7 +12,7 @@
   %tbody
     - @questions.each do |question|
       %tr
-        %td= question.content
+        %td= render 'formatted_md_text', markdown: question.content
         %td= question.answer
         %td= link_to 'Quiz', quiz_question_path(question)
         %td= link_to 'Show', question
