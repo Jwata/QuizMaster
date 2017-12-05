@@ -1,24 +1,19 @@
-%h1 Listing questions
+%h1.title Questions
 
-%table
-  %thead
-    %tr
-      %th Content
-      %th Answer
-      %th
-      %th
-      %th
+= link_to 'Add New Question', new_question_path, class: ['button', 'is-primary']
 
-  %tbody
-    - @questions.each do |question|
-      %tr
-        %td= render 'formatted_md_text', markdown: question.content
-        %td= question.answer
-        %td= link_to 'Quiz', quiz_question_path(question)
-        %td= link_to 'Show', question
-        %td= link_to 'Edit', edit_question_path(question)
-        %td= link_to 'Delete', question, method: :delete, data: { confirm: 'Are you sure?' }
+%hr
 
-%br
-
-= link_to 'New Question', new_question_path
+- @questions.each_slice(2) do |questions|
+  .tile.is-ancestor
+    - questions.each do |question|
+      .tile.is-parent.is-6
+        .tile.is-child
+          .card
+            .card-content
+              = render 'formatted_md_text', markdown: question.content
+            %footer.card-footer
+              = link_to 'Quiz', quiz_question_path(question), class: 'card-footer-item'
+              = link_to 'Show', question, class: 'card-footer-item'
+              = link_to 'Edit', edit_question_path(question), class: 'card-footer-item'
+              = link_to 'Delete', question, method: :delete, data: { confirm: 'Are you sure?' }, class: 'card-footer-item'

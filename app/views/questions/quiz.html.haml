@@ -1,14 +1,33 @@
-%p#notice= notice
-%p="Your answer: #{flash[:quiz_answer]}"
+%h1.title Quiz
 
-%b Content:
-= render 'formatted_md_text', markdown: @question.content.to_s
+- if notice
+  %p#notice= notice
 
-= form_for :quiz, url: quiz_question_path(@question), method: :post do |f|
-  .field
-    = f.label :answer
-    = f.text_field :answer, value: nil, required: true
-  .actions
-    = f.submit 'Check Answer'
+- if flash[:quiz_answer]
+  - if flash[:quiz_result]
+    .notification.is-primary
+      %p= 'Correct Answer!'
+      %p= "Your answer: #{flash[:quiz_answer]}"
+  - else
+    .notification.is-danger
+      %p= 'Incorrect Answer!'
+      ="Your answer: #{flash[:quiz_answer]}"
 
-= link_to 'Back', questions_path
+.card
+  .card-content
+    = render 'formatted_md_text', markdown: @question.content
+
+%hr
+- unless flash[:quiz_answer]
+  = form_for :quiz, url: quiz_question_path(@question), method: :post do |f|
+    .field
+      %label.label= f.label :answer
+      .control= f.text_field :answer, value: nil, required: true, class: 'input'
+
+    .field
+      %button.button.is-primary= 'Check Answer'
+
+- else
+  = link_to 'Try Again', quiz_question_path, class: ['button']
+  = link_to 'Show Answer', question_path, class: ['button']
+  = link_to 'Back to List', questions_path, class: ['button']

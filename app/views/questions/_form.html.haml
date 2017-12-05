@@ -1,21 +1,30 @@
-#mde-preview.markdown-body
+- if @question.errors.any?
+  #error_explanation
+    %h2= "#{pluralize(@question.errors.count, "error")} prohibited this question from being saved:"
+    %ul
+      - @question.errors.full_messages.each do |message|
+        %li= message
 
-= form_for @question do |f|
-  - if @question.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@question.errors.count, "error")} prohibited this question from being saved:"
-      %ul
-        - @question.errors.full_messages.each do |message|
-          %li= message
+.columns
+  .column.is-half
+    = form_for @question do |f|
+      .field
+        %label.label= f.label :content
+        = f.text_area :content, id: 'mde'
+      .field
+        %label.label= f.label :answer
+        .control
+          = f.text_field :answer, value: f.object.answer.to_s, required: true, class: 'input'
+      .field
+        %button.button.is-primary= 'Save'
 
-  .field
-    = f.label :content
-    = f.text_area :content, id: 'mde'
-  .field
-    = f.label :answer
-    = f.text_field :answer, value: f.object.answer.to_s, required: true
-  .actions
-    = f.submit 'Save'
+  .column.is-half
+    .field
+      %label.label Preview
+    .container
+      .card
+        .card-content
+          #mde-preview.content
 
 :coffee
   textArea = document.getElementById('mde')

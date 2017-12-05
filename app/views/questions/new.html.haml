@@ -1,5 +1,7 @@
-%h1 New question
+%h1.title New question
 
 = render 'form'
 
-= link_to 'Back', questions_path
+%hr
+
+= link_to 'Show', @question, class: 'button'

@@ -65,10 +65,10 @@ class QuestionsController < ApplicationController
   end
 
   def check_answer
-    messsage = check_answer_message @question.correct?(quiz_answer_param)
+    flash[:quiz_result] = @question.correct?(quiz_answer_param)
     flash[:quiz_answer] = quiz_answer_param
     respond_to do |format|
-      format.html { redirect_to quiz_question_path, notice: messsage }
+      format.html { redirect_to quiz_question_path }
       format.json { render :quiz, status: :ok, location: @question }
     end
   end
@@ -86,9 +86,5 @@ class QuestionsController < ApplicationController
 
     def quiz_answer_param
       params.require(:quiz).require(:answer)
-    end
-
-    def check_answer_message(result)
-      (result)? 'Correct Answer!' : 'Incorrect Answer! '
     end
 end

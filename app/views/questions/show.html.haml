@@ -1,19 +1,17 @@
-%p#notice= notice
+%h1.title Question and Answer
 
-%p
-#mde-preview
+- if notice
+  .notification.is-primary= notice
 
-  %b Content:
-  = render 'formatted_md_text', markdown: @question.content.to_s
+.card
+  .card-content
+    = render 'formatted_md_text', markdown: @question.content
+    .container
+      %hr
+      %p= "Answer: <i>#{@question.answer}</i>".html_safe
+  %footer.card-footer
+    = link_to 'Edit', edit_question_path(@question), class: 'card-footer-item'
+    = link_to 'Delete', @question, method: :delete, data: { confirm: 'Are you sure?' }, class: 'card-footer-item'
 
-%p
-  %b Answer:
-  = @question.answer
-
-= link_to 'Quiz', quiz_question_path(@question)
-\|
-= link_to 'Edit', edit_question_path(@question)
-\|
-= link_to 'Delete', @question, method: :delete, data: { confirm: 'Are you sure?' }
-\|
-= link_to 'Back', questions_path
+%hr
+= link_to 'Back to List', questions_path, class: 'button'

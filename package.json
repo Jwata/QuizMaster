@@ -3,7 +3,6 @@
   "private": true,
   "dependencies": {
     "bulma": "^0.6.1",
-    "github-markdown-css": "^2.9.0",
     "simplemde": "^1.11.2"
   }
 }
