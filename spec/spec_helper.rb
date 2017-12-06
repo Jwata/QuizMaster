@@ -1,4 +1,7 @@
 require 'simplecov'
+require 'coveralls'
+
+SimpleCov.formatter = Coveralls::SimpleCov::Formatter
 if ENV['COVERAGE_DIR']
   SimpleCov.coverage_dir(ENV['COVERAGE_DIR'])
 end
