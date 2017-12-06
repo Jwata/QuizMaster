@@ -4,8 +4,5 @@
   "dependencies": {
     "bulma": "^0.6.1",
     "simplemde": "^1.11.2"
-  },
-  "engines": {
-    "node": "8.9.1"
   }
 }
