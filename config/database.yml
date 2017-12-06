@@ -80,6 +80,4 @@ test:
 #
 production:
   <<: *default
-  database: quiz_master_test_production
-  username: quiz_master
-  password: <%= ENV['QUIZ_MASTER_DATABASE_PASSWORD'] %>
+  url: <%= ENV['DATABASE_URL'] %>
