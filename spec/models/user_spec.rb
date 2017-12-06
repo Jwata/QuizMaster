@@ -1,5 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe '#auth_token' do
+    subject { user.auth_token }
+
+    let(:user) { User.create }
+
+    it { is_expected.to be_a Knock::AuthToken }
+  end
 end
