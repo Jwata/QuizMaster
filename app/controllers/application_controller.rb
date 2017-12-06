@@ -4,6 +4,10 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user
   before_action :redirect_after_authentication
 
+  def unauthorized_entity(entity)
+    render file: 'public/401.html', status: :unauthorized
+  end
+
   private
 
     def token
