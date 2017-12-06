@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Quiz mode', type: :system do
   before do
+    login_user
     @question = Question.create!(content: "# #{content}", answer: correct_answer)
   end
 
@@ -33,13 +34,15 @@ RSpec.describe 'Quiz mode', type: :system do
 
     expect(page).to have_content('Incorrect Answer!')
 
+    # Try Again
+    click_link 'Try Again'
+
     # Correct answer
     fill_in 'Answer', with: correct_answer
 
     click_button 'Check Answer'
 
     expect(page).to have_content('Correct Answer!')
-
   end
 
   scenario 'In cases wherein the answer is/contains a number, it should recognise the number as words' do
@@ -51,6 +54,9 @@ RSpec.describe 'Quiz mode', type: :system do
     click_button 'Check Answer'
 
     expect(page).to have_content('Incorrect Answer!')
+
+    # Try Again
+    click_link 'Try Again'
 
     # Correct answer
     fill_in 'Answer', with: correct_answer_in_word

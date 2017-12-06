@@ -2,9 +2,11 @@ require 'rails_helper'
 
 RSpec.describe 'Questions', type: :system do
   before do
+    login_user
     @question = Question.create!(content: content, answer: answer)
   end
 
+  let(:question) { @question }
   let(:content) { "What's the highest mountaion in Japan?" }
   let(:answer) { 'Mount Fuji' }
   let(:new_content) { "What's the highest mountaion in the world?" }
@@ -86,7 +88,7 @@ RSpec.describe 'Questions', type: :system do
     expect(page).to have_css('h1', text: content)
 
     # Open the edit question page
-    click_link 'Edit'
+    visit edit_question_path(question)
 
     # Change style
     delete_text_in_editor_field(styled_content.length)
@@ -102,7 +104,7 @@ RSpec.describe 'Questions', type: :system do
     expect(page).to have_css('h2', text: content)
 
     # Check in the quiz page
-    click_link 'Quiz'
+    visit quiz_question_path(question)
     expect(page).to have_css('h2', text: content)
   end
 

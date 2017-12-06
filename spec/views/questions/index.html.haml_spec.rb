@@ -16,7 +16,6 @@ RSpec.describe "questions/index", type: :view do
 
   it "renders a list of questions" do
     render
-    assert_select "tr>td", :text => "Content".to_s, :count => 2
-    assert_select "tr>td", :text => "Answer".to_s, :count => 2
+    assert_select ".card", :count => 2
   end
 end

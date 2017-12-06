@@ -42,6 +42,9 @@ gem 'haml-rails', '~> 1.0'
 # String to numbers
 gem 'numbers_in_words'
 
+# JWT Authentication
+gem 'knock'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -66,6 +69,7 @@ group :development do
 end
 
 group :test do
+  gem 'factory_bot_rails'
   gem 'rails-controller-testing'
 end
 
