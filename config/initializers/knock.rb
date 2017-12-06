@@ -37,7 +37,7 @@ Knock.setup do |config|
   ##
   ## Default:
   if Rails.env.production?
-    config.token_secret_signature_key = -> { Rails.application.secrets.secret_key_base }
+    config.token_secret_signature_key = -> { Rails.application.credentials.secret_key_base }
   else
     config.token_secret_signature_key = -> { 'knock_signature_key' }
   end
