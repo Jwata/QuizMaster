@@ -15,7 +15,7 @@
 
 .card
   .card-content
-    = render 'formatted_md_text', markdown: @question.content
+    = render 'markdown', text: @question.content
 
 %hr
 - unless flash[:quiz_answer]

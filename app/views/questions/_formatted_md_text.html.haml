@@ -1,7 +1,0 @@
-- mde_formatted_id = "mde-formatted-#{Digest::MD5.hexdigest(markdown)}"
-.content{id: mde_formatted_id }
-
-:coffee
-  mdText = "#{j markdown}"
-  mdEl = document.getElementById("#{mde_formatted_id}")
-  mdEl.innerHTML = SimpleMDE.prototype.markdown(mdText)

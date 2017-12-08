@@ -11,7 +11,7 @@
         .tile.is-child
           .card
             .card-content
-              = render 'formatted_md_text', markdown: question.content
+              = render 'markdown', text: question.content
             %footer.card-footer
               = link_to 'Quiz', quiz_question_path(question), class: 'card-footer-item'
               = link_to 'Show', question, class: 'card-footer-item'

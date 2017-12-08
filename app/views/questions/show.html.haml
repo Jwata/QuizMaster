@@ -5,7 +5,7 @@
 
 .card
   .card-content
-    = render 'formatted_md_text', markdown: @question.content
+    = render 'markdown', text: @question.content
     .container
       %hr
       %p= "Answer: <i>#{@question.answer}</i>".html_safe

@@ -25,14 +25,3 @@
       .card
         .card-content
           #mde-preview.content
-
-:coffee
-  textArea = document.getElementById('mde')
-  mde = new SimpleMDE(
-    autofocus: true
-    element: textArea
-  )
-  previewArea = document.getElementById('mde-preview')
-  previewArea.innerHTML = mde.markdown(mde.value())
-  mde.codemirror.on 'change', ->
-    previewArea.innerHTML = mde.markdown(mde.value())
