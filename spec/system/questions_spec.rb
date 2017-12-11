@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Questions', type: :system do
+RSpec.feature 'Questions', type: :system do
   before do
     login_user
     @question = Question.create!(content: content, answer: answer)
@@ -12,64 +12,61 @@ RSpec.describe 'Questions', type: :system do
   let(:new_content) { "What's the highest mountaion in the world?" }
   let(:new_answer) { 'Mount Everest' }
 
-  feature 'CRUD operations for questions' do
-    scenario 'Allow user to create a question' do
-      # Open the new question page
-      visit new_question_path
+  scenario 'A user creates a question' do
+    # Open the new question page
+    visit new_question_path
 
-      # Fill in content and answer
-      fill_in_editor_field new_content
-      fill_in 'Answer', with: new_answer
+    # Fill in content and answer
+    fill_in_editor_field new_content
+    fill_in 'Answer', with: new_answer
 
-      # Submit
-      click_button 'Save'
+    # Submit
+    click_button 'Save'
 
-      # Check if the content and answer were saved properly
-      expect(page).to have_content(new_content)
-      expect(page).to have_content(new_answer)
-    end
-
-    scenario 'Allow user to show a question' do
-      # Open the question page
-      visit question_path(@question)
-
-      expect(page).to have_content(content)
-      expect(page).to have_content(answer)
-    end
-
-    scenario 'Allow user to edit a question' do
-      # Open the edit question page
-      visit edit_question_path(@question)
-
-      # Change content and answer
-      fill_in_editor_field new_content
-      fill_in 'Answer', with: new_answer
-
-      # Submit
-      click_button 'Save'
-
-      # Check if the content and answer were updated properly
-      expect(page).to have_content(new_content)
-      expect(page).to have_content(new_answer)
-    end
-
-    scenario 'Allow user to delete a question' do
-      # Open the question page
-      visit question_path(@question)
-
-      # Delete
-      click_link 'Delete'
-      page.accept_alert
-
-      # Check if the question was deleted properly
-      expect(page.current_path).to eq questions_path
-      expect(page).not_to have_content(content)
-      expect(page).not_to have_content(answer)
-    end
+    # Check if the content and answer were saved properly
+    expect(page).to have_content(new_content)
+    expect(page).to have_content(new_answer)
   end
 
+  scenario 'A user sees a question' do
+    # Open the question page
+    visit question_path(@question)
 
-  scenario 'Allow user to provide formatting or styling for the question content' do
+    expect(page).to have_content(content)
+    expect(page).to have_content(answer)
+  end
+
+  scenario 'A user edits a question' do
+    # Open the edit question page
+    visit edit_question_path(@question)
+
+    # Change content and answer
+    fill_in_editor_field new_content
+    fill_in 'Answer', with: new_answer
+
+    # Submit
+    click_button 'Save'
+
+    # Check if the content and answer were updated properly
+    expect(page).to have_content(new_content)
+    expect(page).to have_content(new_answer)
+  end
+
+  scenario 'A user deletes a question' do
+    # Open the question page
+    visit question_path(@question)
+
+    # Delete
+    click_link 'Delete'
+    page.accept_alert
+
+    # Check if the question was deleted properly
+    expect(page.current_path).to eq questions_path
+    expect(page).not_to have_content(content)
+    expect(page).not_to have_content(answer)
+  end
+
+  scenario 'A user formats a question content' do
     # Open the new question page
     visit new_question_path
 

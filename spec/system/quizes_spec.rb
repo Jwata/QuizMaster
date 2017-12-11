@@ -12,7 +12,7 @@ RSpec.describe 'Quiz mode', type: :system do
   let(:correct_answer_in_word) { 'five' }
   let(:incorrect_answer_in_word) { 'six' }
 
-  scenario 'Show a question and user should be able to submit an answer' do
+  scenario 'A user sees a question and submits an answer' do
     visit quiz_question_path(@question)
 
     expect(page).to have_css('h1', text: content)
@@ -24,7 +24,7 @@ RSpec.describe 'Quiz mode', type: :system do
     expect(page).to have_content(correct_answer)
   end
 
-  scenario 'App should be able to check and handle cases wherein answer is correct or incorrect' do
+  scenario 'A user checks if the answer is correct or incorrect' do
     visit quiz_question_path(@question)
 
     # Incorrect answer

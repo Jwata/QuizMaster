@@ -1,7 +1,10 @@
 class LearningSession
   include ActiveModel::Model
+  include ActiveModel::Validations::Callbacks
 
   attr_accessor :questions, :current_index
+
+  validates :questions, presence: true
 
   def self.from_question_ids(question_ids)
     questions = question_ids.map.with_index { |id, i| { index: i, id: id, results: [] } }

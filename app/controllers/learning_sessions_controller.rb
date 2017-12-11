@@ -13,8 +13,13 @@ class LearningSessionsController < ApplicationController
   end
 
   def create
-    @learning_session = LearningSessionManager.new_session
-    session[:learning_session] = @learning_session.to_h
-    redirect_to learning_session_path
+    learning_session = LearningSessionManager.new_session
+    if learning_session && learning_session.valid?
+      session[:learning_session] = learning_session.to_h
+      redirect_to learning_session_path
+    else
+      flash[:error] = 'Failed to start learning session'
+      redirect_to questions_path
+    end
   end
 end

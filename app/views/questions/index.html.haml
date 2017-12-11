@@ -1,5 +1,9 @@
-%h1.title Questions
+- if flash[:error]
+  .notification.is-danger
+    = flash[:error]
 
+%h1.title Questions
+= link_to 'Start Learning Session', learning_session_path, method: :post, class: ['button', 'is-danger']
 = link_to 'Add New Question', new_question_path, class: ['button', 'is-primary']
 
 %hr
