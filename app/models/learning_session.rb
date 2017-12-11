@@ -8,7 +8,7 @@ class LearningSession
     self.new(current_index: 0, questions: questions)
   end
 
-  def initialize(questions:, current_index:)
+  def initialize(questions: [], current_index: 0)
     self.current_index = current_index
     self.questions = questions.map { |q| Question.new(q) }
   end
