@@ -1,5 +1,8 @@
 class QuestionsController < ApplicationController
+  include HasCurrentLearningSession
+
   before_action :set_question, only: [:show, :edit, :update, :destroy, :quiz, :check_answer]
+  after_action :save_answer_to_learning_session, only: :check_answer, if: -> { current_learning_session.present? }
 
   # GET /questions
   # GET /questions.json
@@ -65,7 +68,8 @@ class QuestionsController < ApplicationController
   end
 
   def check_answer
-    flash[:quiz_result] = @question.correct?(quiz_answer_param)
+    @quiz_result = @question.correct?(quiz_answer_param)
+    flash[:quiz_result] = @quiz_result
     flash[:quiz_answer] = quiz_answer_param
     respond_to do |format|
       format.html { redirect_to quiz_question_path }
@@ -86,5 +90,10 @@ class QuestionsController < ApplicationController
 
     def quiz_answer_param
       params.require(:quiz).require(:answer)
+    end
+
+    def save_answer_to_learning_session
+      current_learning_session.answer(@quiz_result)
+      session[:learning_session] = current_learning_session.to_h
     end
 end

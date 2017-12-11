@@ -166,12 +166,25 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'POST #check_answer' do
-    let(:quiz_answer) { question.answer }
     let(:question) { Question.create! valid_attributes }
 
     it 'redirects to the quiz' do
-      post :check_answer, params: {id: question.to_param, quiz: { answer: quiz_answer }}, session: valid_session
+      post :check_answer, params: {id: question.to_param, quiz: { answer: 'some answer' }}, session: valid_session
       expect(response).to redirect_to(quiz_question_path)
+    end
+
+    context 'During a learning session' do
+      before { session[:learning_session] = learning_session }
+
+      let(:learning_session) { LearningSession.from_question_ids([question.id]).to_h }
+
+      let(:correct_answer) { question.answer }
+
+      it 'stores the quiz result to the learning session' do
+        expect do
+          post :check_answer, params: {id: question.to_param, quiz: { answer: correct_answer }}, session: valid_session
+        end.to change { session[:learning_session] }
+      end
     end
   end
 

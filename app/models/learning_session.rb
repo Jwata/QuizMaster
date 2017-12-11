@@ -25,7 +25,7 @@ class LearningSession
     else
       self.current_index = nil
     end
-    nil
+    self
   end
 
   def completed?
