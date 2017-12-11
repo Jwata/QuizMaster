@@ -44,10 +44,6 @@ class LearningSession
 
   private
 
-    def question(index)
-      questions[index]
-    end
-
     def next_question
       start = current_index + 1
       last = questions.length - 1
