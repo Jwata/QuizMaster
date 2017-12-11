@@ -1,4 +1,5 @@
 class LearningSessionsController < ApplicationController
+  include HasCurrentLearningSession
 
   def show
     return redirect_to root_path unless current_learning_session
@@ -16,11 +17,4 @@ class LearningSessionsController < ApplicationController
     session[:learning_session] = @learning_session.to_h
     redirect_to learning_session_path
   end
-
-  private
-
-    def current_learning_session
-      return unless session[:learning_session]
-      LearningSession.new(session[:learning_session].deep_symbolize_keys)
-    end
 end
