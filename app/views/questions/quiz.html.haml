@@ -18,7 +18,14 @@
     = render 'markdown', text: @question.content
 
 %hr
-- unless flash[:quiz_answer]
+- if flash[:quiz_answer]
+  - if current_learning_session
+    = link_to 'Next Quiz', learning_session_path, class: ['button']
+  - else
+    = link_to 'Try Again', quiz_question_path(@question), class: ['button']
+    = link_to 'Show Answer', question_path(@question), class: ['button']
+    = link_to 'Back to List', questions_path, class: ['button']
+- else
   = form_for :quiz, url: quiz_question_path(@question), method: :post do |f|
     .field
       %label.label= f.label :answer
@@ -26,8 +33,3 @@
 
     .field
       %button.button.is-primary= 'Check Answer'
-
-- else
-  = link_to 'Try Again', quiz_question_path, class: ['button']
-  = link_to 'Show Answer', question_path, class: ['button']
-  = link_to 'Back to List', questions_path, class: ['button']
