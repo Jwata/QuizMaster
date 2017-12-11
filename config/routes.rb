@@ -7,4 +7,6 @@ Rails.application.routes.draw do
       post 'quiz', to: 'questions#check_answer'
     end
   end
+
+  resource :learning_session, only: [:show, :create]
 end
