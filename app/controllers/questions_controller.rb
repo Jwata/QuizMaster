@@ -4,6 +4,8 @@ class QuestionsController < ApplicationController
   before_action :set_question, only: [:show, :edit, :update, :destroy, :quiz, :check_answer]
   after_action :save_answer_to_learning_session, only: :check_answer, if: -> { current_learning_session.present? }
 
+  before_action :redirect_to_current_quiz, except: :check_answer
+
   # GET /questions
   # GET /questions.json
   def index

@@ -8,5 +8,9 @@
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
   %body
+    - if current_learning_session
+      .notification.is-primary
+        - link = link_to 'Stop Learning Session', learning_session_path, method: :delete
+        %p= "Your are in a learning session! #{link}".html_safe
     .section
       = yield

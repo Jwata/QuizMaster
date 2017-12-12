@@ -8,5 +8,5 @@ Rails.application.routes.draw do
     end
   end
 
-  resource :learning_session, only: [:show, :create]
+  resource :learning_session, only: [:show, :create, :destroy]
 end
