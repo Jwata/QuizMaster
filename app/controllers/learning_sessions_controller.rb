@@ -1,5 +1,4 @@
 class LearningSessionsController < ApplicationController
-  include HasCurrentLearningSession
 
   def show
     return redirect_to root_path unless current_learning_session

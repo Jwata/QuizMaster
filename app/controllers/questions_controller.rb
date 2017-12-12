@@ -1,5 +1,4 @@
 class QuestionsController < ApplicationController
-  include HasCurrentLearningSession
 
   before_action :set_question, only: [:show, :edit, :update, :destroy, :quiz, :check_answer]
   after_action :save_answer_to_learning_session, only: :check_answer, if: -> { current_learning_session.present? }
