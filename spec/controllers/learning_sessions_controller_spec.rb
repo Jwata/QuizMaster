@@ -23,6 +23,19 @@ RSpec.describe LearningSessionsController, type: :controller do
       expect(subject).to eq learning_session_hash
     end
 
+    context 'when no questions' do
+      let(:learning_session) { double(:learning_session, valid?: false, questions: []) }
+
+      before do
+        allow(LearningSessionManager).to receive(:new_session).and_return(learning_session)
+      end
+
+      it 'redirects to the questions page' do
+        get :create, params: { }, session: valid_session
+        expect(response).to be_successful
+      end
+    end
+
     context 'when failing to create a new learning session' do
       let(:invalid_learning_session) { double(:learning_session, valid?: false) }
 
@@ -78,6 +91,18 @@ RSpec.describe LearningSessionsController, type: :controller do
           expect(response).to be_successful
         end
       end
+    end
+  end
+
+  describe 'GET #destroy' do
+    before do
+      session[:learning_session] = { dummy: :session }
+    end
+
+    it 'redirects to the root path'do
+      get :destroy, params: { }, session: valid_session
+      expect(response).to redirect_to root_path
+      expect(session[:learning_session]).to be_nil
     end
   end
 
