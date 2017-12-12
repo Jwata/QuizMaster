@@ -2,7 +2,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/Jwata/QuizMaster/badge.svg?branch=master)](https://coveralls.io/github/Jwata/QuizMaster?branch=master)
 
 # QuizMaster
-This is a simple quiz web app with a simple spaced repetition system.  
+This is a quiz web app with a simple spaced repetition system.  
 You can also see the demo app [here](https://quiz-master-jw.herokuapp.com/).
 
 ## Tech Stack
@@ -34,7 +34,7 @@ You can stop the learning session by clicking the link in the flash message.
 ![](./docs/learning-session.png)
 
 ### (Beta) Spaced Repetition
-In the learning session mode, the spaced repetition system schedules next repetition depending on your response.  
+In the learning session mode, the spaced repetition system schedules next repetitions depending on your responses.  
 Check the [supermemo2 algorithm](https://www.supermemo.com/english/ol/sm2.htm) for more details.
 
 
