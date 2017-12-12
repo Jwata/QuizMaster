@@ -3,27 +3,28 @@
 - if notice
   %p#notice= notice
 
-- if flash[:quiz_answer]
-  - if flash[:quiz_result]
-    .notification.is-primary
-      %p= 'Correct Answer!'
-      %p= "Your answer: #{flash[:quiz_answer]}"
-  - else
-    .notification.is-danger
-      %p= 'Incorrect Answer!'
-      ="Your answer: #{flash[:quiz_answer]}"
-
 .card
   .card-content
     = render 'markdown', text: @question.content
 
 %hr
+
 - if flash[:quiz_answer]
+  - if flash[:quiz_result]
+    .notification.is-primary
+      %p= 'Correct Answer!'
+      %p= "Your Answer: #{flash[:quiz_answer]}"
+      %p="Correct Answer: #{@question.answer}"
+  - else
+    .notification.is-danger
+      %p= 'Incorrect Answer!'
+      %p="Your Answer: #{flash[:quiz_answer]}"
+      %p="Correct Answer: #{@question.answer}"
+
   - if current_learning_session
     = link_to 'Next Quiz', learning_session_path, class: ['button']
   - else
     = link_to 'Try Again', quiz_question_path(@question), class: ['button']
-    = link_to 'Show Answer', question_path(@question), class: ['button']
     = link_to 'Back to List', questions_path, class: ['button']
 - else
   = form_for :quiz, url: quiz_question_path(@question), method: :post do |f|

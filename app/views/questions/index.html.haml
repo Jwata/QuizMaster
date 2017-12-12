@@ -3,8 +3,8 @@
     = flash[:error]
 
 %h1.title Questions
-= link_to 'Start Learning Session', learning_session_path, method: :post, class: ['button', 'is-danger']
 = link_to 'Add New Question', new_question_path, class: ['button', 'is-primary']
+= link_to 'Start Learning Session', learning_session_path, method: :post, class: ['button', 'is-danger']
 
 %hr
 
@@ -18,6 +18,6 @@
               = render 'markdown', text: question.content
             %footer.card-footer
               = link_to 'Quiz', quiz_question_path(question), class: 'card-footer-item'
-              = link_to 'Show', question, class: 'card-footer-item'
+              = link_to 'Answer', question, class: 'card-footer-item'
               = link_to 'Edit', edit_question_path(question), class: 'card-footer-item'
               = link_to 'Delete', question, method: :delete, data: { confirm: 'Are you sure?' }, class: 'card-footer-item'
