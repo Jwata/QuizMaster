@@ -9,7 +9,7 @@ RSpec.describe LearningSessionManager, type: :model do
     let(:questions_ids) { [1,2,3] }
 
     before do
-      allow(Question).to receive_message_chain('all.pluck').with(:id) { questions_ids }
+      allow(described_class).to receive(:new_session_question_ids).with(user) { questions_ids }
     end
 
     it { is_expected.to be_a LearningSession }

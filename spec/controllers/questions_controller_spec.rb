@@ -170,7 +170,7 @@ RSpec.describe QuestionsController, type: :controller do
 
     it 'redirects to the quiz' do
       post :check_answer, params: {id: question.to_param, quiz: { answer: 'some answer' }}, session: valid_session
-      expect(response).to redirect_to(quiz_question_path)
+      expect(response).to redirect_to(quiz_question_path(completed: true))
     end
 
     context 'During a learning session' do

@@ -8,25 +8,30 @@ RSpec.describe LearningSessionsController, type: :controller do
   let(:user) { create(:user) }
 
   describe 'POST #create' do
-    subject(:learning_session) { session[:learning_session] }
+    subject { session[:learning_session] }
+
+    let(:learning_session) { double(:learning_session, valid?: true, to_h: learning_session_hash) }
+
+    let(:learning_session_hash) { { dummy: :hash } }
 
     before do
-      allow(Question).to receive_message_chain('all.pluck').and_return([1])
+      allow(LearningSessionManager).to receive(:new_session).and_return(learning_session)
     end
 
     it 'creates a new learning session' do
       get :create, params: { }, session: valid_session
-      expect(learning_session).to include(:questions, :current_index)
+      expect(subject).to eq learning_session_hash
     end
 
     context 'when failing to create a new learning session' do
-      before do
-        allow(LearningSession).to receive(:new).and_return(invalid_learning_session)
-      end
-
       let(:invalid_learning_session) { double(:learning_session, valid?: false) }
 
-      it 'redirects to thequestions page' do
+      before do
+        allow(invalid_learning_session).to receive_message_chain('questions.empty?').and_return(false)
+        allow(LearningSessionManager).to receive(:new_session).and_return(invalid_learning_session)
+      end
+
+      it 'redirects to the questions page' do
         get :create, params: { }, session: valid_session
         expect(response).to redirect_to(questions_path)
       end
