@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2017_12_06_101807) do
+ActiveRecord::Schema.define(version: 2017_12_12_150617) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,9 +43,24 @@ ActiveRecord::Schema.define(version: 2017_12_06_101807) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "repetitions", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "question_id", null: false
+    t.datetime "due_at", null: false
+    t.integer "iteration", null: false
+    t.integer "interval", null: false
+    t.integer "ef", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "due_at"], name: "index_repetitions_on_user_id_and_due_at"
+    t.index ["user_id", "question_id"], name: "index_repetitions_on_user_id_and_question_id", unique: true
+  end
+
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "repetitions", "questions"
+  add_foreign_key "repetitions", "users"
 end
