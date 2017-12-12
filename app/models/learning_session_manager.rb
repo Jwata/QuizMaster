@@ -8,7 +8,9 @@ class LearningSessionManager
   private
 
     def self.new_session_question_ids(user)
-      ids = user.repetitions.where('due_at < ?', Time.zone.now).pluck(:question_id)
+      ids = user.repetitions.joins(:question)
+        .where('due_at < ?', Time.zone.now)
+        .pluck(:question_id)
       learned_ids = user.repetitions.pluck(:question_id)
       ids += Question.where.not(id: learned_ids).pluck(:id)
       ids.shuffle

@@ -30,7 +30,6 @@ RSpec.describe 'questions/quiz', type: :view do
       it 'shows next actions' do
         render template: 'questions/quiz'
         expect(rendered).to match(/Try Again/)
-        expect(rendered).to match(/Show Answer/)
         expect(rendered).to match(/Back to List/)
       end
     end

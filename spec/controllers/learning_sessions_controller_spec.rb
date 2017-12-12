@@ -74,6 +74,10 @@ RSpec.describe LearningSessionsController, type: :controller do
         let(:current_question) { double(:current_questoion, id: current_question_id) }
         let(:current_question_id) { 1 }
 
+        before do
+          allow(controller).to receive(:current_question).and_return(Question.new(id: current_question_id))
+        end
+
         it 'redirects to the current quiz page'do
           get :show, params: { }, session: valid_session
           expect(response).to redirect_to quiz_question_path(id: current_question_id)

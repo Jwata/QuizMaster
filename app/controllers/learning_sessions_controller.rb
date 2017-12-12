@@ -5,9 +5,11 @@ class LearningSessionsController < ApplicationController
     if current_learning_session.completed?
       session[:learning_session] = nil
       render :completed
-    else
-      quiz_path = quiz_question_path(id: current_learning_session.current_question.id)
+    elsif current_question
+      quiz_path = quiz_question_path(current_question)
       redirect_to quiz_path
+    else
+      render :invalid_session
     end
   end
 
@@ -28,4 +30,10 @@ class LearningSessionsController < ApplicationController
     session[:learning_session] = nil
     redirect_to root_path
   end
+
+  private
+
+    def current_question
+      Question.find_by(id: current_learning_session.current_question.id)
+    end
 end
