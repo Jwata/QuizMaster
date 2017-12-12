@@ -3,6 +3,10 @@ require 'rails_helper'
 RSpec.describe HasCurrentLearningSession, type: :controller do
   controller(ActionController::Base) do
     include HasCurrentLearningSession
+
+    def current_user
+      User.new
+    end
   end
 
   describe '#current_learning_session' do
@@ -13,6 +17,8 @@ RSpec.describe HasCurrentLearningSession, type: :controller do
     end
 
     context 'when the learning session is stored' do
+      let(:user) { double(:user) }
+
       before do
         session[:learning_session] = LearningSession.new.to_h.deep_stringify_keys
       end

@@ -176,7 +176,7 @@ RSpec.describe QuestionsController, type: :controller do
     context 'During a learning session' do
       before { session[:learning_session] = learning_session }
 
-      let(:learning_session) { LearningSession.from_question_ids([question.id]).to_h }
+      let(:learning_session) { LearningSession.from_question_ids(user, [question.id]).to_h }
 
       let(:correct_answer) { question.answer }
 

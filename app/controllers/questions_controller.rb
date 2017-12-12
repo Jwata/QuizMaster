@@ -4,7 +4,7 @@ class QuestionsController < ApplicationController
   before_action :set_question, only: [:show, :edit, :update, :destroy, :quiz, :check_answer]
   after_action :save_answer_to_learning_session, only: :check_answer, if: -> { current_learning_session.present? }
 
-  before_action :redirect_to_current_quiz, except: :check_answer
+  before_action :redirect_to_current_quiz, except: :check_answer, if: -> { not completed? }
 
   # GET /questions
   # GET /questions.json
@@ -74,7 +74,7 @@ class QuestionsController < ApplicationController
     flash[:quiz_result] = @quiz_result
     flash[:quiz_answer] = quiz_answer_param
     respond_to do |format|
-      format.html { redirect_to quiz_question_path }
+      format.html { redirect_to quiz_question_path(completed: true) }
       format.json { render :quiz, status: :ok, location: @question }
     end
   end
@@ -88,6 +88,10 @@ class QuestionsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def question_params
       params.require(:question).permit(:content, :answer)
+    end
+
+    def completed?
+      params[:completed]
     end
 
     def quiz_answer_param

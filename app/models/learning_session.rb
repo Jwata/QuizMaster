@@ -2,18 +2,20 @@ class LearningSession
   include ActiveModel::Model
   include ActiveModel::Validations::Callbacks
 
-  attr_accessor :questions, :current_index
+  attr_accessor :user, :questions, :current_index, :timestamp
 
   validates :questions, presence: true
 
-  def self.from_question_ids(question_ids)
+  def self.from_question_ids(user, question_ids)
     questions = question_ids.map.with_index { |id, i| { index: i, id: id, results: [] } }
-    self.new(current_index: 0, questions: questions)
+    self.new(user: user, current_index: 0, questions: questions)
   end
 
-  def initialize(questions: [], current_index: 0)
+  def initialize(user: nil, questions: [], current_index: 0)
+    self.user = user
     self.current_index = current_index
     self.questions = questions.map { |q| Question.new(q) }
+    self.timestamp = Time.zone.now
   end
 
   def current_question
@@ -22,6 +24,7 @@ class LearningSession
   end
 
   def answer(result)
+    update_user_repetition(result)
     current_question.results << result
     if next_question
       self.current_index = next_question.index
@@ -49,6 +52,16 @@ class LearningSession
       last = questions.length - 1
       question = questions[start..last].find(&:repeat?)
       (question) ? question : questions.find(&:repeat?)
+    end
+
+    def update_user_repetition(result)
+      return unless current_question.results.empty?
+      repetition = user.repetitions.find_or_initialize_by(question_id: current_question.id)
+      # TODO change quality based on other response information
+      # e.g. duration
+      quality = (result) ? 5 : 1
+      repetition.repeat(quality, timestamp)
+      repetition.save
     end
 
     class Question
