@@ -1,5 +1,6 @@
 [![CircleCI](https://circleci.com/gh/Jwata/QuizMaster.svg?style=svg)](https://circleci.com/gh/Jwata/QuizMaster)
 [![Coverage Status](https://coveralls.io/repos/github/Jwata/QuizMaster/badge.svg?branch=master)](https://coveralls.io/github/Jwata/QuizMaster?branch=master)
+[![Maintainability](https://api.codeclimate.com/v1/badges/9e213bc50fbb185193be/maintainability)](https://codeclimate.com/github/Jwata/QuizMaster/maintainability)
 
 # QuizMaster
 This is a quiz web app with a simple spaced repetition system.  
